@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    links:
+      - osrm-bike
+      - osrm-fumes
+  osrm-bike:
+    image: osrm
+    cmd: osrm latest bike.lua
+  osrm-fumes:
+    image: osrm
+    cmd: osrm latest fumes.lua
