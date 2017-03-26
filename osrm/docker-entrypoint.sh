@@ -1,5 +1,5 @@
 #!/bin/bash
-DATA_PATH=${DATA_PATH:="/data"}
+DATA_PATH=${DATA_PATH:="/osrm-build/data"}
 
 _sig() {
   kill -TERM $child 2>/dev/null

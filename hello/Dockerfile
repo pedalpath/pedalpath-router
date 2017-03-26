@@ -1,5 +1,7 @@
 FROM python:3-onbuild
 
-ADD index.html
+ADD index.html index.html
 
-CMD python3 -m http.server
+CMD python -m http.server
+
+EXPOSE 8000

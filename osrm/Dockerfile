@@ -24,17 +24,19 @@ RUN apt-get -y update && apt-get install -y \
     libluajit-5.1-dev \
     pkg-config
 
-RUN mkdir -p /osrm-build \
- && mkdir -p /osrm-data
+RUN mkdir -p /osrm-build
 
 WORKDIR /osrm-build
+
+ADD data data
+ADD profiles profiles
 
 RUN curl --silent -L https://github.com/Project-OSRM/osrm-backend/archive/v5.2.6.tar.gz -o v5.2.6.tar.gz \
  && tar xzf v5.2.6.tar.gz \
  && mv osrm-backend-5.2.6 /osrm-src \
  && cmake /osrm-src \
  && make \
- && mv /osrm-src/profiles/ profiles \
+ && mv /osrm-src/profiles/lib/ profiles/lib \
  && echo "disk=/tmp/stxxl,25000,syscall" > .stxxl \
  && rm -rf /osrm-src
 
