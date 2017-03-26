@@ -3,14 +3,27 @@ version: '2'
 services:
   nginx:
     image: nginx
+    volumes:
+     - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
     ports:
-      - "80:80"
+     - "8080:80"
+    environment:
+     - NGINX_HOST=0.0.0.0
+     - NGINX_PORT=80
+    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
     links:
+      - osrm-bike
+      - osrm-fumes
+    depends_on:
       - osrm-bike
       - osrm-fumes
   osrm-bike:
     image: osrm
-    cmd: osrm latest bike.lua
+    ports: 
+      - 5001:5000
+    command: osrm latest bike.lua
   osrm-fumes:
     image: osrm
-    cmd: osrm latest fumes.lua
+    ports: 
+      - 5002:5000
+    command: osrm latest fumes.lua
